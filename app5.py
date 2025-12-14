@@ -1,20 +1,26 @@
+# =========================
+# Compatible with LangChain ≥ 0.1.x (latest split-packages)
+# =========================
+
 from flask import Flask, render_template, request, jsonify
 import os
-from dotenv import load_dotenv
 import json
 from datetime import datetime
-from langchain.document_loaders import TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
-from langchain.vectorstores import FAISS
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import CohereRerank
+from dotenv import load_dotenv
+
+# ---- LangChain (latest) imports ----
+from langchain_community.document_loaders import TextLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_classic.retrievers import EnsembleRetriever
+from langchain_classic.retrievers.contextual_compression import ContextualCompressionRetriever
+from langchain_community.retrievers import BM25Retriever
+from langchain_cohere import CohereRerank
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from langchain.retrievers import BM25Retriever, EnsembleRetriever
-from langchain.memory import ConversationBufferMemory
-from langchain.schema import HumanMessage, AIMessage
+from langchain_community.llms import HuggingFaceHub
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'
@@ -233,4 +239,4 @@ class RAGChatbot:
         return response, compressed_docs
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=6000)
