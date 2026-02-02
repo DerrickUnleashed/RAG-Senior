@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Care AI Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .chat-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .query {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .query-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .response {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .response-content {
+            background: white;
+            color: #333;
+            padding: 12px 18px;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 70%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .feedback-section {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .feedback-btn {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 6px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .feedback-btn:hover {
+            background: #e0e0e0;
+            border-color: #ccc;
+        }
+
+        .feedback-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #queryForm {
+            display: flex;
+            gap: 12px;
+        }
+
+        #queryInput {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        #queryInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .timestamp {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Feedback Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .rating-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .rating-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+
+        .rating-btn:hover {
+            border-color: #667eea;
+        }
+
+        .rating-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1em;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .modal-btn-cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Scrollbar styling */
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Senior Care AI Assistant</h1>
+            <p class="subtitle">Your companion for health and wellbeing support</p>
+        </header>
+
+        <div class="chat-wrapper">
+            <div class="chat-header">
+                <h2>💬 Chat</h2>
+                <button class="clear-btn" onclick="clearChat()">Clear Chat</button>
+            </div>
+
+            <div class="chat-container" id="chatContainer">
+                {% if chat_history %}
+                    {% for message in chat_history %}
+                    <div class="message" data-message-id="{{ message.id }}">
+                        <div class="query">
+                            <div class="query-content">{{ message.query }}</div>
+                        </div>
+                        <div class="response">
+                            <div class="response-content">{{ message.response }}</div>
+                            <div class="feedback-section">
+                                <button class="feedback-btn" onclick="openFeedbackModal({{ message.id }}, 'helpful')">👍 Helpful</button>
+                                <button class="feedback-btn" onclick="openFeedbackModal({{ message.id }}, 'not-helpful')">👎 Not Helpful</button>
+                            </div>
+                            <div class="timestamp">{{ message.timestamp }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        <h3>No messages yet</h3>
+                        <p>Start a conversation by typing a message below</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="loading" id="loading">
+                <p>AI is thinking...</p>
+            </div>
+
+            <div class="input-container">
+                <form id="queryForm">
+                    <input 
+                        type="text" 
+                        id="queryInput" 
+                        name="query" 
+                        placeholder="Ask me anything about health and wellbeing..." 
+                        required
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="send-btn" id="sendBtn">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="modal" id="feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">Provide Feedback</div>
+            <div class="rating-buttons">
+                <button class="rating-btn" data-rating="very-helpful">⭐ Very Helpful</button>
+                <button class="rating-btn" data-rating="helpful">👍 Helpful</button>
+                <button class="rating-btn" data-rating="not-helpful">👎 Not Helpful</button>
+            </div>
+            <textarea 
+                class="feedback-textarea" 
+                id="feedbackComment" 
+                placeholder="Any additional comments? (optional)"
+            ></textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closeFeedbackModal()">Cancel</button>
+                <button class="modal-btn modal-btn-submit" onclick="submitFeedback()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFeedbackMessageId = null;
+        let selectedRating = null;
+
+        $(document).ready(function() {
+            // Scroll to bottom on page load
+            scrollToBottom();
+
+            // Handle form submission
+            $('#queryForm').on('submit', function(e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            // Rating button selection
+            $('.rating-btn').on('click', function() {
+                $('.rating-btn').removeClass('selected');
+                $(this).addClass('selected');
+                selectedRating = $(this).data('rating');
+            });
+        });
+
+        function sendMessage() {
+            const query = $('#queryInput').val().trim();
+            
+            if (!query) {
+                return;
+            }
+
+            // Disable send button and show loading
+            $('#sendBtn').prop('disabled', true);
+            $('#loading').addClass('active');
+
+            // Remove empty state if present
+            $('.empty-state').remove();
+
+            $.ajax({
+                type: 'POST',
+                url: '/chat',
+                contentType: 'application/json',
+                data: JSON.stringify({ query: query }),
+                success: function(response) {
+                    if (response.success) {
+                        // Create new message elements
+                        const messageHtml = `
+                            <div class="message" data-message-id="${response.id}">
+                                <div class="query">
+                                    <div class="query-content">${escapeHtml(response.query)}</div>
+                                </div>
+                                <div class="response">
+                                    <div class="response-content">${escapeHtml(response.response)}</div>
+                                    <div class="feedback-section">
+                                        <button class="feedback-btn" onclick="openFeedbackModal(${response.id}, 'helpful')">👍 Helpful</button>
+                                        <button class="feedback-btn" onclick="openFeedbackModal(${response.id}, 'not-helpful')">👎 Not Helpful</button>
+                                    </div>
+                                    <div class="timestamp">${response.timestamp}</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        $('#chatContainer').append(messageHtml);
+                        $('#queryInput').val('');
+                        scrollToBottom();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function(xhr) {
+                    const error = xhr.responseJSON?.error || 'An error occurred';
+                    alert('Error: ' + error);
+                },
+                complete: function() {
+                    $('#sendBtn').prop('disabled', false);
+                    $('#loading').removeClass('active');
+                    $('#queryInput').focus();
+                }
+            });
+        }
+
+        function clearChat() {
+            if (!confirm('Are you sure you want to clear the chat history?')) {
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/clear',
+                success: function(response) {
+                    if (response.success) {
+                        $('#chatContainer').html(`
+                            <div class="empty-state">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                                <h3>No messages yet</h3>
+                                <p>Start a conversation by typing a message below</p>
+                            </div>
+                        `);
+                    }
+                }
+            });
+        }
+
+        function openFeedbackModal(messageId, defaultRating) {
+            currentFeedbackMessageId = messageId;
+            selectedRating = defaultRating;
+            
+            // Reset modal
+            $('.rating-btn').removeClass('selected');
+            $(`[data-rating="${defaultRating}"]`).addClass('selected');
+            $('#feedbackComment').val('');
+            
+            $('#feedbackModal').addClass('active');
+        }
+
+        function closeFeedbackModal() {
+            $('#feedbackModal').removeClass('active');
+            currentFeedbackMessageId = null;
+            selectedRating = null;
+        }
+
+        function submitFeedback() {
+            if (!selectedRating) {
+                alert('Please select a rating');
+                return;
+            }
+
+            const comment = $('#feedbackComment').val().trim();
+
+            $.ajax({
+                type: 'POST',
+                url: '/feedback',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    messageId: currentFeedbackMessageId,
+                    rating: selectedRating,
+                    comment: comment
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        alert('Thank you for your feedback!');
+                        closeFeedbackModal();
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function(xhr) {
+                    const error = xhr.responseJSON?.error || 'An error occurred';
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('chatContainer');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Close modal when clicking outside
+        $('#feedbackModal').on('click', function(e) {
+            if (e.target === this) {
+                closeFeedbackModal();
+            }
+        });
+    </script>
+</body>
+</html>
