@@ -1,53 +1,70 @@
-Patient Health Information for Senior Citizens
+# Medical Records Dataset (Fictional)
 
-Common Health Concerns for Elderly:
+---
 
-1. Cardiovascular Health
-Seniors should monitor blood pressure regularly. Normal blood pressure is around 120/80 mmHg. High blood pressure (hypertension) is a common condition that can be managed with medication, diet, and exercise. Regular walking for 30 minutes daily can improve heart health significantly.
+## Patient ID: P001
 
-2. Diabetes Management
-Many seniors have type 2 diabetes. It's important to monitor blood sugar levels, maintain a healthy diet, and take prescribed medications. A balanced diet with limited sugar intake is crucial. Regular check-ups with a doctor are essential.
+**Name:** Arjun Mehta  
+**Age:** 34  
+**Gender:** Male  
+**Blood Group:** B+  
 
-3. Bone Health and Osteoporosis
-Calcium and vitamin D are essential for maintaining bone strength. Seniors should consume dairy products, leafy greens, and get adequate sunlight exposure. Weight-bearing exercises help prevent osteoporosis.
+### Medical Conditions
+- Mild hypertension (diagnosed 2022)
+- Seasonal allergic rhinitis
 
-4. Mental Health and Cognitive Function
-Depression and anxiety are common in elderly individuals. Social interaction, hobbies, and physical activity can improve mental wellbeing. Memory exercises and puzzles help maintain cognitive function. Professional help should be sought if symptoms persist.
+### Medications
+- Amlodipine 5 mg — once daily
+- Cetirizine 10 mg — as needed
 
-5. Sleep Issues
-Seniors often experience sleep disturbances. Maintaining a regular sleep schedule, avoiding caffeine late in the day, and creating a comfortable sleep environment can help. Aim for 7-8 hours of sleep per night.
+### Allergies
+- Penicillin
 
-6. Nutrition Guidelines
-A balanced diet should include:
-- Fresh fruits and vegetables
-- Whole grains
-- Lean proteins (fish, chicken, legumes)
-- Limited salt and sugar
-- Adequate water intake (8 glasses daily)
+### Recent Visit Notes
+Patient reports occasional headaches and fatigue. Blood pressure readings slightly elevated but stable. Advised low-salt diet and regular exercise.
 
-7. Medication Management
-Keep a list of all medications, dosages, and schedules. Use pill organizers to avoid missing doses. Never stop medications without consulting a doctor. Report any side effects immediately.
+---
 
-8. Fall Prevention
-Falls are a major concern for seniors. To prevent falls:
-- Keep living spaces clutter-free
-- Install grab bars in bathrooms
-- Use non-slip mats
-- Ensure adequate lighting
-- Wear proper footwear
-- Exercise to improve balance
+## Patient ID: P002
 
-9. Regular Health Screenings
-Seniors should have regular check-ups including:
-- Blood pressure monitoring
-- Cholesterol tests
-- Diabetes screening
-- Vision and hearing tests
-- Bone density scans
-- Cancer screenings (as recommended)
+**Name:** Priya Nair  
+**Age:** 26  
+**Gender:** Female  
+**Blood Group:** O−  
 
-10. Social Engagement
-Staying socially active is crucial for mental health. Participate in group activities, maintain contact with family and friends, join hobby clubs, or volunteer. Social isolation can lead to depression and cognitive decline.
+### Medical Conditions
+- Iron-deficiency anemia
+- Vitamin D deficiency
 
-Emergency Contact Information:
-Always keep emergency contacts readily available. Wear medical alert bracelets if necessary. Know the signs of stroke, heart attack, and other emergencies.
+### Medications
+- Ferrous sulfate 325 mg — once daily
+- Vitamin D3 60,000 IU — once weekly
+
+### Allergies
+- None reported
+
+### Recent Visit Notes
+Patient complains of dizziness and weakness. Hemoglobin levels below normal range. Dietary counseling provided and follow-up labs scheduled after 6 weeks.
+
+---
+
+## Patient ID: P003
+
+**Name:** Rohan Kapoor  
+**Age:** 52  
+**Gender:** Male  
+**Blood Group:** A+  
+
+### Medical Conditions
+- Type 2 diabetes mellitus
+- Hyperlipidemia
+
+### Medications
+- Metformin 500 mg — twice daily
+- Atorvastatin 20 mg — once daily
+
+### Allergies
+- Shellfish
+
+### Recent Visit Notes
+Fasting blood glucose slightly elevated. Lipid profile improving. Advised continued medication adherence and daily walking for at least 30 minutes.
